@@ -24,5 +24,10 @@ namespace W7_Drawing
         {
             InitializeComponent();
         }
+
+        private void ShapeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
