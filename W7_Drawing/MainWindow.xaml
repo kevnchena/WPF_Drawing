@@ -6,7 +6,19 @@
         xmlns:local="clr-namespace:W7_Drawing"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <DockPanel LastChildFill="False" Height="600">
+        <Menu DockPanel.Dock="Top" Height="25">
+            <MenuItem Header="檔案" VerticalAlignment="Center" Height="25">
+                <MenuItem Header="新增畫布">
+                    
+                </MenuItem>
+                <MenuItem Header="清理畫布">
 
-    </Grid>
+                </MenuItem>
+
+            </MenuItem>
+        </Menu>
+        <Canvas DockPanel.Dock="Top" Height="387" Background="#FFF9F9D6"/>
+        <StatusBar DockPanel.Dock="Top"/>
+    </DockPanel>
 </Window>
