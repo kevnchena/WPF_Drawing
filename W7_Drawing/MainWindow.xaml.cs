@@ -45,6 +45,9 @@ namespace W7_Drawing
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 dest = e.GetPosition(myCanvas);
+                Point origin;
+                origin.X = Math.Min(start.X, dest.X);
+                origin.Y = Math.Min(start.Y, dest.Y);
                 DisplayStatus();
 
                 switch (shapeType)
@@ -54,17 +57,19 @@ namespace W7_Drawing
                         line.X2 = dest.X;
                         line.Y2 = dest.Y;
                         break;
-                    case "retangle":
+                    case "rectangle":
                         var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
-                        Point origin;
-                        origin.X = Math.Min(start.X, dest.X);
-                        origin.Y=Math.Min(start.Y, dest.Y);
                         rec.Width =Math.Abs(start.X - dest.X);
                         rec.Height= Math.Abs(start.Y - dest.Y);
                         rec.SetValue(Canvas.LeftProperty,origin.X);
                         rec.SetValue(Canvas.TopProperty,origin.Y);
                         break;
                     case "ellipse":
+                        var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                        ell.Width = Math.Abs(start.X - dest.X);
+                        ell.Height = Math.Abs(start.Y - dest.Y);
+                        ell.SetValue(Canvas.LeftProperty, origin.X);
+                        ell.SetValue(Canvas.TopProperty, origin.Y);
                         break;
                 }
             }
@@ -90,7 +95,7 @@ namespace W7_Drawing
                     };
                     myCanvas.Children.Add(line);
                     break;
-                case "retangle":
+                case "rectangle":
                     Rectangle rectangle = new Rectangle
                     {
                         Stroke= Brushes.Gray,
@@ -125,7 +130,7 @@ namespace W7_Drawing
                     line.X2 = dest.X;
                     line.Y2 = dest.Y;
                     break;
-                case "retangle":
+                case "rectangle":
                     var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
                     rec.Stroke = strokeBrush;
                     rec.Fill = fillBrush;
