@@ -9,15 +9,10 @@
         Title="MainWindow" Height="633" Width="1007">
     <DockPanel LastChildFill="False" Height="600">
         <Menu DockPanel.Dock="Top" Height="25">
-            <MenuItem Header="檔案" VerticalAlignment="Center" Height="25">
-                <MenuItem Header="新增畫布">
-
-                </MenuItem>
-                <MenuItem Header="清理畫布">
-
-                </MenuItem>
-
+            <MenuItem Header="檔案" VerticalAlignment="Center" Height="25" Click="clear">
+                <MenuItem Header="新增畫布"/>
             </MenuItem>
+            <MenuItem Header="清除畫布"/>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top" Height="40">
             <ToolBar Height="38" VerticalAlignment="Center" Margin="0,0,-21,0">

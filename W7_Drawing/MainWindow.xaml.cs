@@ -37,7 +37,6 @@ namespace W7_Drawing
         {
             var targetRadioBotton = sender as RadioButton;
             shapeType = targetRadioBotton.Tag.ToString();
-            MessageBox.Show(shapeType);
 
         }
 
@@ -47,6 +46,7 @@ namespace W7_Drawing
             {
                 dest = e.GetPosition(myCanvas);
                 DisplayStatus();
+
                 switch (shapeType)
                 {
                     case "line":
@@ -55,8 +55,14 @@ namespace W7_Drawing
                         line.Y2 = dest.Y;
                         break;
                     case "retangle":
-                        var rectangle = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
-                        //rectangle.Stroke = 
+                        var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                        Point origin;
+                        origin.X = Math.Min(start.X, dest.X);
+                        origin.Y=Math.Min(start.Y, dest.Y);
+                        rec.Width =Math.Abs(start.X - dest.X);
+                        rec.Height= Math.Abs(start.Y - dest.Y);
+                        rec.SetValue(Canvas.LeftProperty,origin.X);
+                        rec.SetValue(Canvas.TopProperty,origin.Y);
                         break;
                     case "ellipse":
                         break;
@@ -85,28 +91,51 @@ namespace W7_Drawing
                     myCanvas.Children.Add(line);
                     break;
                 case "retangle":
-                    Rectangle rectangle = new Rectangle();
+                    Rectangle rectangle = new Rectangle
+                    {
+                        Stroke= Brushes.Gray,
+                        Fill=Brushes.Yellow
+                    };
                     myCanvas.Children.Add(rectangle);
-
+                    rectangle.SetValue (Canvas.LeftProperty,start.X);
+                    rectangle.SetValue (Canvas.TopProperty,start.Y);
                     break;
                 case "ellipse":
+                    Ellipse ellipse = new Ellipse
+                    {
+                        Stroke = Brushes.Gray,
+                        Fill = Brushes.Yellow
+                    };
+                    myCanvas.Children.Add(ellipse);
+                    ellipse.SetValue(Canvas.LeftProperty, start.X);
+                    ellipse.SetValue(Canvas.TopProperty, start.Y);
                     break;
             }
         }
         private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            Brush strokeBrush = new SolidColorBrush(strokecolor);
+            Brush fillBrush = new SolidColorBrush(fillcolor);
             switch (shapeType)
             {
                 case "line":
                     var line = myCanvas.Children.OfType<Line>().LastOrDefault();
-                    line.Stroke = new SolidColorBrush(strokecolor);
+                    line.Stroke = strokeBrush;
                     line.StrokeThickness = strokeThickness;
                     line.X2 = dest.X;
                     line.Y2 = dest.Y;
                     break;
                 case "retangle":
+                    var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                    rec.Stroke = strokeBrush;
+                    rec.Fill = fillBrush;
+                    rec.StrokeThickness = strokeThickness;
                     break;
                 case "ellipse":
+                    var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                    ell.Stroke = strokeBrush;
+                    ell.Fill = fillBrush;
+                    ell.StrokeThickness = strokeThickness;
                     break;
             }
         }
@@ -114,7 +143,10 @@ namespace W7_Drawing
         private void DisplayStatus()
         {
             coordinateLabel.Content = $"座標點:({Math.Round(start.X)},{Math.Round(start.Y)})-({Math.Round(dest.X)},{Math.Round(dest.Y)})";
-            shapeLabel.Content = $"{myCanvas.Children.OfType<Line>().Count()}";
+            int lineCount = myCanvas.Children.OfType<Line>().Count();
+            int rectCount = myCanvas.Children.OfType<Rectangle>().Count();
+            int ellipseCount = myCanvas.Children.OfType<Ellipse>().Count();
+            shapeLabel.Content = $"Line:{lineCount} Rect:{rectCount} Ellipse:{ellipseCount}";
         }
 
         private void strokeColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -125,6 +157,11 @@ namespace W7_Drawing
         private void strokeThicknessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             strokeThickness = Convert.ToInt32(strokeThicknessSlider.Value);
+        }
+
+        private void clear(object sender, RoutedEventArgs e)
+        {
+            myCanvas.Children.Clear();
         }
 
         private void fillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
