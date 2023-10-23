@@ -95,6 +95,7 @@ namespace W7_Drawing
                     };
                     myCanvas.Children.Add(line);
                     break;
+
                 case "rectangle":
                     Rectangle rectangle = new Rectangle
                     {
@@ -105,6 +106,7 @@ namespace W7_Drawing
                     rectangle.SetValue (Canvas.LeftProperty,start.X);
                     rectangle.SetValue (Canvas.TopProperty,start.Y);
                     break;
+
                 case "ellipse":
                     Ellipse ellipse = new Ellipse
                     {
@@ -115,6 +117,7 @@ namespace W7_Drawing
                     ellipse.SetValue(Canvas.LeftProperty, start.X);
                     ellipse.SetValue(Canvas.TopProperty, start.Y);
                     break;
+
             }
         }
         private void myCanvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -151,6 +154,7 @@ namespace W7_Drawing
             int lineCount = myCanvas.Children.OfType<Line>().Count();
             int rectCount = myCanvas.Children.OfType<Rectangle>().Count();
             int ellipseCount = myCanvas.Children.OfType<Ellipse>().Count();
+            if(myCanvas.Children.Count==0) { lineCount=0; rectCount = 0; ellipseCount = 0; }
             shapeLabel.Content = $"Line:{lineCount} Rect:{rectCount} Ellipse:{ellipseCount}";
         }
 
@@ -167,6 +171,11 @@ namespace W7_Drawing
         private void clear(object sender, RoutedEventArgs e)
         {
             myCanvas.Children.Clear();
+            start.X = 0;
+            start.Y = 0;
+            dest.X = 0;
+            dest.Y = 0;
+            DisplayStatus();
         }
 
         private void fillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
