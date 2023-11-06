@@ -71,6 +71,10 @@ namespace W7_Drawing
                         ell.SetValue(Canvas.LeftProperty, origin.X);
                         ell.SetValue(Canvas.TopProperty, origin.Y);
                         break;
+                    case "polyline":
+                        var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                        polyline.Points.Add(dest);
+                        break;
                 }
             }
         }
@@ -117,6 +121,16 @@ namespace W7_Drawing
                     ellipse.SetValue(Canvas.LeftProperty, start.X);
                     ellipse.SetValue(Canvas.TopProperty, start.Y);
                     break;
+                case "polyline":
+                    Polyline polyline = new Polyline
+                    {
+                        Stroke = Brushes.Gray,
+                        Fill = Brushes.Yellow
+                    };
+                    myCanvas.Children.Add(polyline);
+                    polyline.SetValue(Canvas.LeftProperty, start.X);
+                    polyline.SetValue(Canvas.TopProperty, start.Y);
+                    break;
 
             }
         }
@@ -145,6 +159,12 @@ namespace W7_Drawing
                     ell.Fill = fillBrush;
                     ell.StrokeThickness = strokeThickness;
                     break;
+                case "oplyline":
+                    var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                    polyline.Stroke = strokeBrush;
+                    polyline.Fill = fillBrush;
+                    polyline.StrokeThickness = strokeThickness;
+                    break;
             }
         }
 
@@ -154,15 +174,27 @@ namespace W7_Drawing
             int lineCount = myCanvas.Children.OfType<Line>().Count();
             int rectCount = myCanvas.Children.OfType<Rectangle>().Count();
             int ellipseCount = myCanvas.Children.OfType<Ellipse>().Count();
-            if(myCanvas.Children.Count==0) { lineCount=0; rectCount = 0; ellipseCount = 0; }
-            shapeLabel.Content = $"Line:{lineCount} Rect:{rectCount} Ellipse:{ellipseCount}";
+            int polylineCount = myCanvas.Children.OfType<Polyline>().Count();
+            if (myCanvas.Children.Count==0) { lineCount=0; rectCount = 0; ellipseCount = 0; }
+            shapeLabel.Content = $"Line:{lineCount} Rect:{rectCount} Ellipse:{ellipseCount} Polyline{polylineCount}";
         }
 
+
+
+
+        private void eraseButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void clearButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void strokeColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             strokecolor = (Color)strokeColorPicker.SelectedColor;
         }
-
         private void strokeThicknessSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             strokeThickness = Convert.ToInt32(strokeThicknessSlider.Value);
@@ -177,7 +209,6 @@ namespace W7_Drawing
             dest.Y = 0;
             DisplayStatus();
         }
-
         private void fillColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             fillcolor = (Color)fillColorPicker.SelectedColor;

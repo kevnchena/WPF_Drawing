@@ -9,9 +9,11 @@
 
   <ItemGroup>
     <None Remove="circles.png" />
+    <None Remove="eraser.png" />
     <None Remove="line.png" />
     <None Remove="polyline.png" />
     <None Remove="square.png" />
+    <None Remove="trashcan.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,9 +22,11 @@
 
   <ItemGroup>
     <Resource Include="circles.png" />
+    <Resource Include="eraser.png" />
     <Resource Include="line.png" />
     <Resource Include="polyline.png" />
     <Resource Include="square.png" />
+    <Resource Include="trashcan.png" />
   </ItemGroup>
 
 </Project>

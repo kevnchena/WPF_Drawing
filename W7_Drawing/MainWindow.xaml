@@ -23,7 +23,7 @@
                 <Slider x:Name="strokeThicknessSlider" Width="150" VerticalAlignment="Center" Minimum="1" Value="1" IsSnapToTickEnabled="True" ValueChanged="strokeThicknessSlider_ValueChanged"/>
                 <Label Width="40" Content="{Binding Value, ElementName=strokeThicknessSlider}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
             </ToolBar>
-            <ToolBar Width="280" Height="38" Background="#FFC3DFFF">
+            <ToolBar Height="38" Background="#FFC3DFFF" Margin="-128,0,0,0">
                 <RadioButton Width="38" Height="38"  Click="ShapeButton_Click" Tag="line"
                              HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
                     <Image Height="35" Width="35" Source="/line.png"/>
@@ -40,6 +40,14 @@
                              HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
                     <Image Height="35" Width="35" Source="/polyline.png"/>
                 </RadioButton>
+            </ToolBar>
+            <ToolBar Width="150" Height="38" Margin="195,2,-195,-2">
+                <Button x:Name="eraseButton" Width="38" Height="38" Click="eraseButton_Click">
+                    <Image Height="35" Width="35" Source="/eraser.png"/>
+                </Button>
+                <Button x:Name="clearButton" Width="38" Height="38" Click="clearButton_Click">
+                    <Image Height="35" Width="35" Source="/trashcan.png"/>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <Canvas x:Name="myCanvas" DockPanel.Dock="Top" Height="498" Background="#FFF9F9D6" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseLeftButtonUp="myCanvas_MouseLeftButtonUp"/>
