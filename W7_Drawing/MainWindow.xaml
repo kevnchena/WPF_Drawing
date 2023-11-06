@@ -24,12 +24,22 @@
                 <Label Width="40" Content="{Binding Value, ElementName=strokeThicknessSlider}" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
             </ToolBar>
             <ToolBar Width="280" Height="38" Background="#FFC3DFFF">
-                <RadioButton Width="80" Height="38" Content="直線" Click="ShapeButton_Click" Tag="line"
-                             HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True"/>
-                <RadioButton Width="80" Height="38" Content="矩形" Click="ShapeButton_Click" Tag="rectangle"
-              HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <RadioButton Width="80" Height="38" Content="橢圓" Click="ShapeButton_Click" Tag="ellipse"
-              HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <RadioButton Width="38" Height="38"  Click="ShapeButton_Click" Tag="line"
+                             HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
+                    <Image Height="35" Width="35" Source="/line.png"/>
+                </RadioButton>
+                <RadioButton Width="38" Height="38"  Click="ShapeButton_Click" Tag="rectangle"
+                             HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
+                    <Image Height="35" Width="35" Source="/square.png"/>
+                </RadioButton>
+                <RadioButton Width="38" Height="38"  Click="ShapeButton_Click" Tag="ellipse"
+                             HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
+                    <Image Height="35" Width="35" Source="/circles.png"/>
+                </RadioButton>
+                <RadioButton Width="38" Height="38"  Click="ShapeButton_Click" Tag="polyline"
+                             HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="True">
+                    <Image Height="35" Width="35" Source="/polyline.png"/>
+                </RadioButton>
             </ToolBar>
         </ToolBarTray>
         <Canvas x:Name="myCanvas" DockPanel.Dock="Top" Height="498" Background="#FFF9F9D6" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown" MouseMove="myCanvas_MouseMove" MouseLeftButtonUp="myCanvas_MouseLeftButtonUp"/>
