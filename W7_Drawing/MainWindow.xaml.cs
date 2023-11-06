@@ -21,6 +21,7 @@ namespace W7_Drawing
     public partial class MainWindow : Window
     {
         string shapeType = "line";
+        string actionMode = "draw";
         Color strokecolor = Colors.Red; //Brush 是更多東西  Color在它之下
         Color fillcolor = Colors.Yellow;
         Brush strokeBrush;
@@ -37,45 +38,57 @@ namespace W7_Drawing
         {
             var targetRadioBotton = sender as RadioButton;
             shapeType = targetRadioBotton.Tag.ToString();
+            actionMode = "draw";
 
         }
 
         private void myCanvas_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            switch (actionMode)
             {
-                dest = e.GetPosition(myCanvas);
-                Point origin;
-                origin.X = Math.Min(start.X, dest.X);
-                origin.Y = Math.Min(start.Y, dest.Y);
-                DisplayStatus();
+                case "draw":
+                    if (e.LeftButton == MouseButtonState.Pressed)
+                    {
+                        dest = e.GetPosition(myCanvas);
+                        Point origin;
+                        origin.X = Math.Min(start.X, dest.X);
+                        origin.Y = Math.Min(start.Y, dest.Y);
+                        DisplayStatus();
 
-                switch (shapeType)
-                {
-                    case "line":
-                        var line = myCanvas.Children.OfType<Line>().LastOrDefault();
-                        line.X2 = dest.X;
-                        line.Y2 = dest.Y;
-                        break;
-                    case "rectangle":
-                        var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
-                        rec.Width =Math.Abs(start.X - dest.X);
-                        rec.Height= Math.Abs(start.Y - dest.Y);
-                        rec.SetValue(Canvas.LeftProperty,origin.X);
-                        rec.SetValue(Canvas.TopProperty,origin.Y);
-                        break;
-                    case "ellipse":
-                        var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
-                        ell.Width = Math.Abs(start.X - dest.X);
-                        ell.Height = Math.Abs(start.Y - dest.Y);
-                        ell.SetValue(Canvas.LeftProperty, origin.X);
-                        ell.SetValue(Canvas.TopProperty, origin.Y);
-                        break;
-                    case "polyline":
-                        var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
-                        polyline.Points.Add(dest);
-                        break;
-                }
+                        switch (shapeType)
+                        {
+                            case "line":
+                                var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                                line.X2 = dest.X;
+                                line.Y2 = dest.Y;
+                                break;
+                            case "rectangle":
+                                var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                                rec.Width = Math.Abs(start.X - dest.X);
+                                rec.Height = Math.Abs(start.Y - dest.Y);
+                                rec.SetValue(Canvas.LeftProperty, origin.X);
+                                rec.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+                            case "ellipse":
+                                var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                                ell.Width = Math.Abs(start.X - dest.X);
+                                ell.Height = Math.Abs(start.Y - dest.Y);
+                                ell.SetValue(Canvas.LeftProperty, origin.X);
+                                ell.SetValue(Canvas.TopProperty, origin.Y);
+                                break;
+                            case "polyline":
+                                var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                                polyline.Points.Add(dest);
+                                break;
+                        }
+                    }
+                    break;
+                case "erase":
+                    var shape = e.OriginalSource as Shape;
+                    myCanvas.Children.Remove(shape);
+                    if (myCanvas.Children.Count == 0) myCanvas.Cursor = Cursors.Arrow;
+                    break;
+            
             }
         }
 
@@ -128,8 +141,6 @@ namespace W7_Drawing
                         Fill = Brushes.Yellow
                     };
                     myCanvas.Children.Add(polyline);
-                    polyline.SetValue(Canvas.LeftProperty, start.X);
-                    polyline.SetValue(Canvas.TopProperty, start.Y);
                     break;
 
             }
@@ -138,34 +149,45 @@ namespace W7_Drawing
         {
             Brush strokeBrush = new SolidColorBrush(strokecolor);
             Brush fillBrush = new SolidColorBrush(fillcolor);
-            switch (shapeType)
+
+            switch (actionMode)
             {
-                case "line":
-                    var line = myCanvas.Children.OfType<Line>().LastOrDefault();
-                    line.Stroke = strokeBrush;
-                    line.StrokeThickness = strokeThickness;
-                    line.X2 = dest.X;
-                    line.Y2 = dest.Y;
+                case "draw":
+                    switch (shapeType)
+                    {
+                        case "line":
+                            var line = myCanvas.Children.OfType<Line>().LastOrDefault();
+                            line.Stroke = strokeBrush;
+                            line.StrokeThickness = strokeThickness;
+                            line.X2 = dest.X;
+                            line.Y2 = dest.Y;
+                            break;
+                        case "rectangle":
+                            var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
+                            rec.Stroke = strokeBrush;
+                            rec.Fill = fillBrush;
+                            rec.StrokeThickness = strokeThickness;
+                            break;
+                        case "ellipse":
+                            var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
+                            ell.Stroke = strokeBrush;
+                            ell.Fill = fillBrush;
+                            ell.StrokeThickness = strokeThickness;
+                            break;
+                        case "oplyline":
+                            var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
+                            polyline.Stroke = strokeBrush;
+                            polyline.Fill = fillBrush;
+                            polyline.StrokeThickness = strokeThickness;
+                            break;
+                    }
+
                     break;
-                case "rectangle":
-                    var rec = myCanvas.Children.OfType<Rectangle>().LastOrDefault();
-                    rec.Stroke = strokeBrush;
-                    rec.Fill = fillBrush;
-                    rec.StrokeThickness = strokeThickness;
+                case "erase":
                     break;
-                case "ellipse":
-                    var ell = myCanvas.Children.OfType<Ellipse>().LastOrDefault();
-                    ell.Stroke = strokeBrush;
-                    ell.Fill = fillBrush;
-                    ell.StrokeThickness = strokeThickness;
-                    break;
-                case "oplyline":
-                    var polyline = myCanvas.Children.OfType<Polyline>().LastOrDefault();
-                    polyline.Stroke = strokeBrush;
-                    polyline.Fill = fillBrush;
-                    polyline.StrokeThickness = strokeThickness;
-                    break;
+
             }
+            
         }
 
         private void DisplayStatus()
@@ -184,7 +206,8 @@ namespace W7_Drawing
 
         private void eraseButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (myCanvas.Children.Count != 0) myCanvas.Cursor = Cursors.Hand;
+            actionMode = "erase";
         }
 
         private void clearButton_Click(object sender, RoutedEventArgs e)
